@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль - Автозапчасти Shop{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h5>Навигация</h5>
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="#" class="list-group-item list-group-item-action active">
+                    <i class="bi bi-person"></i> Мой профиль
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="bi bi-clipboard"></i> Мои заказы
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="bi bi-heart"></i> Избранное
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-header">
+                <h5>Информация о профиле</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <strong>Имя пользователя:</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ current_user.username }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <strong>Email:</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ current_user.email }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <strong>Статус:</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {% if current_user.is_admin %}
+                            <span class="badge bg-success">Администратор</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Пользователь</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <strong>Дата регистрации:</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ current_user.id }} <!-- Здесь должна быть дата регистрации -->
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" disabled>Редактировать профиль</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

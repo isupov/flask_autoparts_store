@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Новости - Автозапчасти Shop{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>Новости</h1>
+
+        {% for item in news.items %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3 class="card-title">{{ item.title }}</h3>
+                <p class="text-muted">
+                    <small>
+                        <i class="bi bi-calendar"></i> {{ item.created_at.strftime('%d.%m.%Y %H:%M') }}
+                    </small>
+                </p>
+                <p class="card-text">{{ item.content[:300] }}{% if item.content|length > 300 %}...{% endif %}</p>
+                <a href="{{ url_for('main.news_item', news_id=item.id) }}" class="btn btn-primary news-link">
+    Читать полностью
+</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            Новости отсутствуют
+        </div>
+        {% endfor %}
+
+        <!-- Пагинация -->
+        {% if news.pages > 1 %}
+        <nav aria-label="Навигация по страницам">
+            <ul class="pagination justify-content-center">
+                {% if news.has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('main.news', page=news.prev_num) }}">Назад</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Назад</span>
+                    </li>
+                {% endif %}
+
+                {% for page_num in news.iter_pages() %}
+                    {% if page_num %}
+                        {% if page_num != news.page %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('main.news', page=page_num) }}">{{ page_num }}</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page_num }}</span>
+                            </li>
+                        {% endif %}
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">…</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if news.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('main.news', page=news.next_num) }}">Вперед</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Вперед</span>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

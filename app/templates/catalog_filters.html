@@ -1,0 +1,110 @@
+<!-- Категории -->
+<div class="mb-4">
+    <h6 class="border-bottom pb-2 mb-3">Категории</h6>
+    <div class="list-group list-group-flush">
+        <a href="{{ url_for('main.catalog') }}"
+           class="list-group-item list-group-item-action {% if not current_category %}active{% endif %}"
+           style="{% if not current_category %}background-color: #dc3545 !important; color: white !important;{% endif %}">
+            <span>Все категории</span>
+        </a>
+
+        {% for parent_category in parent_categories %}
+        <div class="list-group-item">
+            <a href="{{ url_for('main.catalog', category=parent_category.id) }}"
+               class="text-decoration-none d-block {% if current_category == parent_category.id %}fw-bold text-primary{% endif %}">
+                <span>{{ parent_category.name }}</span>
+            </a>
+
+            {% if parent_category.children %}
+                <div class="ms-3 mt-2">
+                    {% for child in parent_category.children %}
+                        <a href="{{ url_for('main.catalog', category=child.id) }}"
+                           class="text-decoration-none d-block small {% if current_category == child.id %}fw-bold text-primary{% endif %}">
+                            <span>{{ child.name }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Остальные фильтры без изменений -->
+
+<!-- Цена -->
+<div class="mb-4">
+    <h6 class="border-bottom pb-2 mb-3">Цена</h6>
+    <form method="GET" class="row g-2">
+        <input type="hidden" name="category" value="{{ request.args.get('category', '') }}">
+        {% for key, value in request.args.items() %}
+            {% if key.startswith('brand_') %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}">
+            {% endif %}
+        {% endfor %}
+
+        <div class="col-6">
+            <label for="price_from" class="form-label small">От</label>
+            <input type="number"
+                   class="form-control form-control-sm"
+                   id="price_from"
+                   name="price_from"
+                   value="{{ request.args.get('price_from', '') }}"
+                   placeholder="0"
+                   step="0.01">
+        </div>
+        <div class="col-6">
+            <label for="price_to" class="form-label small">До</label>
+            <input type="number"
+                   class="form-control form-control-sm"
+                   id="price_to"
+                   name="price_to"
+                   value="{{ request.args.get('price_to', '') }}"
+                   placeholder="10000"
+                   step="0.01">
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-sm w-100">Применить</button>
+            {% if request.args.get('price_from') or request.args.get('price_to') %}
+                <a href="{{ url_for('main.catalog') }}?{{ request.args|selectattr('0', 'ne', 'price_from')|selectattr('0', 'ne', 'price_to')|join('&') }}"
+                   class="btn btn-outline-secondary btn-sm w-100 mt-1">Сбросить</a>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+<!-- Бренды -->
+<div class="mb-4">
+    <h6 class="border-bottom pb-2 mb-3">Бренды</h6>
+    <form method="GET" id="brandFilterForm">
+        <input type="hidden" name="category" value="{{ request.args.get('category', '') }}">
+        <input type="hidden" name="price_from" value="{{ request.args.get('price_from', '') }}">
+        <input type="hidden" name="price_to" value="{{ request.args.get('price_to', '') }}">
+
+        {% for brand in brands[:10] %}
+        <div class="form-check">
+            <input class="form-check-input brand-checkbox"
+                   type="checkbox"
+                   id="brand_{{ brand.id }}"
+                   name="brand_{{ brand.id }}"
+                   value="on"
+                   {% if request.args.get('brand_' + brand.id|string) == 'on' %}checked{% endif %}>
+            <label class="form-check-label" for="brand_{{ brand.id }}">
+                {{ brand.name }}
+            </label>
+        </div>
+        {% endfor %}
+    </form>
+</div>
+
+<script>
+    // Автоматическое применение фильтров брендов
+    document.addEventListener('DOMContentLoaded', function() {
+        const brandCheckboxes = document.querySelectorAll('.brand-checkbox');
+        brandCheckboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                document.getElementById('brandFilterForm').submit();
+            });
+        });
+    });
+</script>

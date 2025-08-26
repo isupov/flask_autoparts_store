@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} - Автозапчасти Shop{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        {% if product.image_url %}
+            <img src="{{ product.image_url }}" class="img-fluid rounded" alt="{{ product.name }}">
+        {% else %}
+            <div class="bg-light d-flex align-items-center justify-content-center" style="height: 400px;">
+                <i class="bi bi-image" style="font-size: 5rem; color: #ccc;"></i>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="col-md-6">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">Главная</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('main.catalog') }}">Каталог</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+            </ol>
+        </nav>
+
+        <h1>{{ product.name }}</h1>
+        <p class="text-muted">Артикул: {{ product.article }}</p>
+
+        <div class="mb-3">
+            <span class="h3 text-primary">{{ "%.2f"|format(product.price) }} ₽</span>
+        </div>
+
+        <div class="mb-3">
+            {% if product.stock > 0 %}
+                <span class="badge bg-success">
+                    <i class="bi bi-check-circle"></i> В наличии ({{ product.stock }} шт.)
+                </span>
+            {% else %}
+                <span class="badge bg-danger">
+                    <i class="bi bi-x-circle"></i> Нет в наличии
+                </span>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <strong>Бренд:</strong> {{ product.brand.name }}<br>
+            <strong>Страна производства:</strong> {{ product.country.name }}<br>
+            <strong>Категории:</strong>
+            {% for category in product.categories %}
+                <span class="badge bg-secondary">{{ category.name }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="mb-4">
+            <h5>Краткое описание</h5>
+            <p>{{ product.short_desc or 'Описание отсутствует' }}</p>
+        </div>
+
+       {% if product.stock > 0 %}
+    <form method="POST" class="mb-4">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            <label class="form-label">Количество</label>
+            <div class="input-group" style="width: fit-content;">
+                <button class="btn btn-outline-secondary" type="button" id="decrease-qty">
+                    <i class="bi bi-dash"></i>
+                </button>
+                {{ form.quantity(class="form-control text-center",
+                              min=1,
+                              max=product.stock,
+                              style="width: 80px;",
+                              id="quantity-input") }}
+                <button class="btn btn-outline-secondary" type="button" id="increase-qty">
+                    <i class="bi bi-plus"></i>
+                </button>
+                <span class="input-group-text">шт.</span>
+            </div>
+            <div class="form-text">Доступно: {{ product.stock }} шт.</div>
+            {% if form.quantity.errors %}
+                <div class="text-danger small mt-1">
+                    {% for error in form.quantity.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+
+    <!-- JavaScript для управления количеством -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const quantityInput = document.getElementById('quantity-input');
+            const decreaseBtn = document.getElementById('decrease-qty');
+            const increaseBtn = document.getElementById('increase-qty');
+            const maxQuantity = {{ product.stock }};
+
+            if (quantityInput && decreaseBtn && increaseBtn) {
+                // Уменьшить количество
+                decreaseBtn.addEventListener('click', function() {
+                    let currentValue = parseInt(quantityInput.value) || 1;
+                    if (currentValue > 1) {
+                        quantityInput.value = currentValue - 1;
+                    }
+                });
+
+                // Увеличить количество
+                increaseBtn.addEventListener('click', function() {
+                    let currentValue = parseInt(quantityInput.value) || 1;
+                    if (currentValue < maxQuantity) {
+                        quantityInput.value = currentValue + 1;
+                    }
+                });
+
+                // Проверка ввода
+                quantityInput.addEventListener('change', function() {
+                    let value = parseInt(this.value) || 1;
+                    if (value < 1) {
+                        this.value = 1;
+                    } else if (value > maxQuantity) {
+                        this.value = maxQuantity;
+                    }
+                });
+
+                // Предотвращение ввода нечисловых значений
+                quantityInput.addEventListener('keypress', function(e) {
+                    if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') {
+                        e.preventDefault();
+                    }
+                });
+            }
+        });
+    </script>
+{% endif %}
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <h3>Подробное описание</h3>
+        <div class="border p-3 rounded">
+            {% if product.full_desc %}
+                {{ product.full_desc|safe }}
+            {% else %}
+                <p class="text-muted">Подробное описание отсутствует</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <a href="{{ url_for('main.catalog') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Вернуться в каталог
+        </a>
+    </div>
+</div>
+{% endblock %}

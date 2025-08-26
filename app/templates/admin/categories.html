@@ -1,0 +1,120 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Категории - Админка{% endblock %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Управление категориями</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5>Создать новую категорию</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('admin.create_category') }}">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Название категории</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="parent_id" class="form-label">Родительская категория (опционально)</label>
+                        <select class="form-select" id="parent_id" name="parent_id">
+                            <option value="0">Без родителя (основная категория)</option>
+                            {% for category in all_categories %}
+                                {% if category.is_parent() %}
+                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Создать</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5>Список категорий</h5>
+            </div>
+            <div class="card-body">
+                {% if parent_categories %}
+                    <div class="accordion" id="categoriesAccordion">
+                        {% for parent_category in parent_categories %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse{{ parent_category.id }}">
+                                    <strong>{{ parent_category.name }}</strong>
+                                    <span class="badge bg-secondary ms-2">{{ parent_category.products|length }} товаров</span>
+                                    {% if parent_category.children %}
+                                        <span class="badge bg-info ms-2">{{ parent_category.children|length }} подкатегорий</span>
+                                    {% endif %}
+                                </button>
+                            </h2>
+                            <div id="collapse{{ parent_category.id }}" class="accordion-collapse collapse"
+                                 data-bs-parent="#categoriesAccordion">
+                                <div class="accordion-body">
+                                    {% if parent_category.children %}
+                                        <h6>Подкатегории:</h6>
+                                        <ul class="list-group mb-3">
+                                            {% for child in parent_category.children %}
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    {{ child.name }}
+                                                    <span class="badge bg-secondary ms-2">{{ child.products|length }} товаров</span>
+                                                </div>
+                                                <div>
+                                                    {% if child.products %}
+                                                        <button class="btn btn-sm btn-outline-secondary" disabled>
+                                                            <i class="bi bi-trash"></i> Удалить
+                                                        </button>
+                                                    {% else %}
+                                                        <a href="{{ url_for('admin.delete_category', category_id=child.id) }}"
+                                                           class="btn btn-sm btn-outline-danger"
+                                                           onclick="return confirm('Вы уверены, что хотите удалить эту подкатегорию?')">
+                                                            <i class="bi bi-trash"></i> Удалить
+                                                        </a>
+                                                    {% endif %}
+                                                </div>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <p class="text-muted">Нет подкатегорий</p>
+                                    {% endif %}
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            {% if parent_category.products or parent_category.children %}
+                                                <button class="btn btn-sm btn-outline-secondary" disabled>
+                                                    <i class="bi bi-trash"></i> Удалить
+                                                </button>
+                                            {% else %}
+                                                <a href="{{ url_for('admin.delete_category', category_id=parent_category.id) }}"
+                                                   class="btn btn-sm btn-outline-danger"
+                                                   onclick="return confirm('Вы уверены, что хотите удалить эту категорию?')">
+                                                    <i class="bi bi-trash"></i> Удалить
+                                                </a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted">Категории не найдены</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

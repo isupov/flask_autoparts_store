@@ -1,0 +1,34 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} - Админка{% endblock %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{{ title }}</h1>
+    <a href="{{ url_for('admin.news') }}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Назад к новостям
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            <div class="mb-3">
+                <label for="title" class="form-label">Заголовок</label>
+                <input type="text" class="form-control" id="title" name="title"
+                       value="{{ news.title if news else '' }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="content" class="form-label">Содержание</label>
+                <textarea class="form-control" id="content" name="content" rows="10" required>{{ news.content if news else '' }}</textarea>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{{ url_for('admin.news') }}" class="btn btn-secondary">Отмена</a>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

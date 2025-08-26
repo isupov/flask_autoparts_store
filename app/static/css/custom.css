@@ -1,0 +1,920 @@
+/* Кастомные стили для интернет-магазина */
+:root {
+    --primary-color: #dc3545; /* Красный */
+    --primary-dark: #c82333; /* Темно-красный */
+    --primary-darker: #bd2130; /* Еще темнее красный */
+    --primary-light: #e74c5e; /* Светло-красный */
+    --secondary-color: #6c757d; /* Серый */
+    --success-color: #28a745; /* Зеленый */
+    --info-color: #17a2b8; /* Голубой */
+    --warning-color: #ffc107; /* Желтый */
+    --danger-color: #dc3545; /* Красный */
+    --light-color: #f8f9fa; /* Светлый */
+    --dark-color: #343a40; /* Темный */
+    --white: #ffffff;
+}
+
+/* Навигация */
+.navbar-primary {
+    background-color: var(--primary-color) !important;
+}
+
+.navbar-primary .navbar-brand,
+.navbar-primary .nav-link {
+    color: var(--white) !important;
+}
+
+.navbar-primary .nav-link:hover {
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+
+/* Кнопки */
+.btn-primary {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--white) !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark) !important;
+    border-color: var(--primary-dark) !important;
+    color: var(--white) !important;
+}
+
+.btn-primary:focus,
+.btn-primary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.btn-outline-primary {
+    color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--white) !important;
+}
+
+/* Карточки */
+.card-primary {
+    border-color: var(--primary-color) !important;
+}
+
+.card-header {
+    background-color: var(--primary-color) !important;
+    color: var(--white) !important;
+    font-weight: 500;
+}
+
+/* Бейджи */
+.badge-primary {
+    background-color: var(--primary-color) !important;
+}
+
+.badge.bg-danger {
+    background-color: #dc3545 !important;
+    color: var(--white) !important;
+}
+
+/* Алерты */
+.alert-primary {
+    background-color: rgba(220, 53, 69, 0.1) !important;
+    border-color: rgba(220, 53, 69, 0.2) !important;
+    color: var(--primary-color) !important;
+}
+
+/* Формы */
+.form-control:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.form-select:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+/* Пагинация */
+.page-item.active .page-link {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--white) !important;
+}
+
+.page-link {
+    color: var(--primary-color) !important;
+}
+
+.page-link:hover {
+    color: var(--primary-dark) !important;
+}
+
+/* Хлебные крошки */
+.breadcrumb-item.active {
+    color: var(--primary-color) !important;
+}
+
+.breadcrumb-item a {
+    color: var(--primary-color) !important;
+    text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+    color: var(--primary-dark) !important;
+    text-decoration: underline;
+}
+
+/* Ссылки */
+a:not(.btn):not(.nav-link):not(.navbar-brand):not(.dropdown-item) {
+    color: var(--primary-color) !important;
+    text-decoration: none;
+}
+
+a:not(.btn):not(.nav-link):not(.navbar-brand):not(.dropdown-item):hover {
+    color: var(--primary-dark) !important;
+    text-decoration: underline;
+}
+
+/* Ссылки в новостях */
+.news-link {
+    color: var(--primary-color) !important;
+    text-decoration: none;
+}
+
+.news-link:hover {
+    color: var(--primary-dark) !important;
+    text-decoration: underline;
+}
+
+/* Таблицы */
+.table-primary {
+    --bs-table-bg: rgba(220, 53, 69, 0.1);
+    --bs-table-striped-bg: rgba(220, 53, 69, 0.15);
+    --bs-table-hover-bg: rgba(220, 53, 69, 0.2);
+}
+
+/* Дополнительные стили */
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+.border-primary {
+    border-color: var(--primary-color) !important;
+}
+
+/* Стили для корзины */
+.toast-header.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+/* Стили для админки */
+.list-group-item.active {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--white) !important;
+}
+
+/* Ховеры для навигации админки */
+.list-group-item-action:hover {
+    background-color: rgba(220, 53, 69, 0.1) !important;
+}
+
+/* Кнопки навигации */
+.btn-secondary {
+    background-color: var(--secondary-color) !important;
+    border-color: var(--secondary-color) !important;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268 !important;
+    border-color: #545b62 !important;
+}
+
+/* Улучшенный контраст для текста на красном фоне */
+.bg-primary,
+.btn-primary,
+.card-header {
+    color: var(--white) !important;
+}
+
+/* Специальные стили для корзины */
+.cart-badge {
+    background-color: #6c757d !important; /* Серый цвет вместо красного */
+    color: white !important;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    padding: 0 5px;
+    font-weight: 500;
+}
+
+/* Стили для поиска */
+.search-container {
+    min-width: 400px;
+}
+
+.search-results-dropdown {
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    min-width: 400px;
+}
+
+.search-results-dropdown .dropdown-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.search-results-dropdown .dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+.search-results-dropdown .dropdown-item:last-child {
+    border-bottom: none;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 991px) {
+    .search-container {
+        min-width: 300px;
+    }
+
+    .search-results-dropdown {
+        position: fixed;
+        top: 60px;
+        left: 10px;
+        right: 10px;
+        max-height: 300px;
+        min-width: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-container {
+        min-width: 200px;
+    }
+}
+
+/* Ещё более широкий поиск на больших экранах */
+@media (min-width: 1200px) {
+    .search-container {
+        min-width: 500px;
+    }
+
+    .search-results-dropdown {
+        min-width: 500px;
+    }
+}
+
+/* Адаптивность для формы добавления в корзину */
+.product-quantity-form {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: end !important;
+    gap: 15px !important;
+}
+
+.product-quantity-form .form-group {
+    flex: 0 0 auto !important;
+}
+
+.product-quantity-form .form-control {
+    width: 100px !important;
+    display: inline-block !important;
+}
+
+.product-quantity-form .btn {
+    flex: 0 0 auto !important;
+}
+
+/* Мобильная версия формы */
+@media (max-width: 576px) {
+    .product-quantity-form {
+        flex-direction: row !important;
+        align-items: end !important;
+    }
+
+    .product-quantity-form .form-control {
+        width: 100px !important;
+        min-width: 100px !important;
+        display: inline-block !important;
+        margin-bottom: 0 !important;
+    }
+
+    .product-quantity-form .btn {
+        margin-top: 0 !important;
+        margin-left: 0 !important;
+        height: fit-content !important;
+    }
+
+    /* Для очень маленьких экранов */
+    @media (max-width: 400px) {
+        .product-quantity-form {
+            flex-direction: column !important;
+            align-items: stretch !important;
+        }
+
+        .product-quantity-form .form-control {
+            width: 100% !important;
+            min-width: auto !important;
+        }
+
+        .product-quantity-form .btn {
+            width: 100% !important;
+        }
+    }
+}
+
+/* Общие адаптивные стили */
+@media (max-width: 768px) {
+    .d-flex-mobile {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 10px !important;
+    }
+
+    .w-mobile-100 {
+        width: 100% !important;
+    }
+
+    .w-mobile-auto {
+        width: auto !important;
+    }
+
+    .card-img-top {
+        height: 250px !important;
+    }
+
+    .search-container {
+        min-width: 250px !important;
+    }
+
+    .nav-item .dropdown-menu {
+        position: absolute !important;
+        right: 0 !important;
+        left: auto !important;
+    }
+}
+
+/* Стили для изображений товаров */
+.product-image {
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+}
+
+/* Адаптивные карточки товаров */
+@media (max-width: 576px) {
+    .card-img-top {
+        height: 200px !important;
+    }
+
+    .cart-item-image {
+        width: 60px !important;
+        height: 60px !important;
+    }
+}
+
+/* Стили для фильтров */
+.card-filters {
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.375rem;
+}
+
+.filter-section {
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+.filter-section:last-child {
+    border-bottom: none;
+}
+
+.filter-section h6 {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.filter-badge {
+    font-size: 0.75rem;
+}
+
+/* Мобильные фильтры */
+@media (max-width: 768px) {
+    .mobile-filters-btn {
+        font-size: 0.875rem;
+        padding: 0.5rem;
+    }
+
+    .mobile-filters-btn i {
+        font-size: 0.75rem;
+    }
+
+    .collapse:not(.show) {
+        display: none;
+    }
+
+    .collapsing {
+        height: 0;
+        overflow: hidden;
+        transition: height 0.35s ease;
+    }
+}
+
+/* Улучшенные стили для списка категорий */
+.list-group-item-action:hover {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+/* Явные стили для активного элемента "Все категории" */
+.list-group-item[href="{{ url_for('main.catalog') }}"].active,
+.list-group-item[href="/catalog"].active {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    color: white !important;
+}
+
+/* Стили для чекбоксов фильтров */
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.form-check-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 576px) {
+    .card-img-top {
+        height: 200px !important;
+    }
+
+    .search-container {
+        min-width: 200px !important;
+    }
+
+    .filter-section h6 {
+        font-size: 0.85rem;
+    }
+
+    .form-control-sm {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .btn-sm {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+/* Мобильный поиск */
+@media (max-width: 991px) {
+    .d-lg-none .search-results-dropdown {
+        position: absolute !important;
+        top: 100% !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 1000 !important;
+        max-height: 300px !important;
+        overflow-y: auto !important;
+    }
+
+    .d-lg-none .search-results-dropdown .dropdown-item {
+        padding: 10px 15px !important;
+        border-bottom: 1px solid #eee !important;
+    }
+
+    .d-lg-none .search-results-dropdown .dropdown-item:last-child {
+        border-bottom: none !important;
+    }
+
+    .d-lg-none .search-results-dropdown .dropdown-item:hover {
+        background-color: #f8f9fa !important;
+    }
+}
+
+/* Адаптивные стили для карточек товаров на главной странице */
+@media (max-width: 576px) {
+    .jumbotron {
+        padding: 2rem 1rem !important;
+    }
+
+    .jumbotron .display-4 {
+        font-size: 2rem !important;
+    }
+
+    .jumbotron .lead {
+        font-size: 1rem !important;
+    }
+
+    .card-img-top {
+        height: 200px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .card-img-top {
+        height: 220px !important;
+    }
+
+    .jumbotron {
+        padding: 3rem 2rem !important;
+    }
+}
+
+/* Стили для кнопок на карточках */
+.btn-cart-small {
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.875rem !important;
+}
+
+/* Улучшенные стили для секций на главной странице */
+.section-title {
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Адаптивность для новостей на главной */
+@media (max-width: 768px) {
+    .news-card {
+        margin-bottom: 1rem;
+    }
+
+    .news-card .card-title {
+        font-size: 1.1rem;
+    }
+}
+
+/* Стили для jumbotron */
+.jumbotron {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+}
+
+.jumbotron .btn-light {
+    color: var(--primary-color) !important;
+    font-weight: 500;
+}
+
+.jumbotron .btn-light:hover {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Адаптивная сетка карточек товаров */
+@media (max-width: 576px) {
+    /* Мобильные устройства - 2 карточки в ряд */
+    .col-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+
+    /* Уменьшенные карточки для мобильных */
+    .card {
+        font-size: 0.875rem;
+    }
+
+    .card-img-top {
+        height: 150px !important;
+    }
+
+    .card-title {
+        font-size: 0.9rem !important;
+    }
+
+    .card-text {
+        font-size: 0.75rem !important;
+    }
+
+    .btn-sm {
+        font-size: 0.7rem !important;
+        padding: 0.25rem 0.5rem !important;
+    }
+
+    .small {
+        font-size: 0.7rem !important;
+    }
+
+    /* Jumbotron для мобильных */
+    .jumbotron {
+        padding: 1.5rem 1rem !important;
+    }
+
+    .jumbotron .display-4 {
+        font-size: 1.5rem !important;
+    }
+
+    .jumbotron .lead {
+        font-size: 0.9rem !important;
+    }
+
+    .jumbotron .btn-lg {
+        font-size: 0.9rem !important;
+        padding: 0.5rem 1rem !important;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+    /* Планшеты - 2 карточки в ряд */
+    .col-sm-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+
+    .card-img-top {
+        height: 180px !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+    /* Маленькие десктопы - 2 карточки в ряд */
+    .col-md-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+
+    .card-img-top {
+        height: 200px !important;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+    /* Средние десктопы - 3 карточки в ряд */
+    .col-lg-4 {
+        flex: 0 0 auto;
+        width: 33.333333%;
+    }
+}
+
+@media (min-width: 1200px) {
+    /* Большие десктопы - 3 карточки в ряд */
+    .col-xl-4 {
+        flex: 0 0 auto;
+        width: 33.333333%;
+    }
+}
+
+/* Общие стили для карточек */
+.card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Стили для изображений в карточках */
+.card-img-top {
+    object-fit: cover;
+    width: 100%;
+}
+
+/* Адаптивные стили для новостей на главной */
+@media (max-width: 576px) {
+    .news-card .card-title {
+        font-size: 1rem !important;
+    }
+
+    .news-card .btn {
+        font-size: 0.8rem !important;
+        padding: 0.25rem 0.5rem !important;
+    }
+}
+
+/* Стили для кнопок "В корзину" */
+.btn-cart-small {
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.75rem !important;
+}
+
+/* Улучшенные стили для секций */
+.section-title {
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Адаптивность для фильтров */
+@media (max-width: 576px) {
+    .filter-section h6 {
+        font-size: 0.9rem !important;
+    }
+
+    .form-check-label {
+        font-size: 0.85rem !important;
+    }
+}
+/* Стили для карточек товаров */
+.product-image {
+    height: 250px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.product-image-placeholder {
+    height: 250px;
+}
+
+.product-image-placeholder i {
+    font-size: 3rem;
+    color: #ccc;
+}
+
+.product-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.product-article {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.product-price {
+    font-size: 1.25rem;
+}
+
+.stock-badge {
+    font-size: 0.8rem;
+}
+
+.product-actions .btn {
+    font-size: 0.875rem;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 576px) {
+    /* Мобильные устройства - 2 карточки в ряд */
+    .col-6 {
+        flex: 0 0 auto;
+        width: 50%;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    /* Уменьшенные карточки для мобильных */
+    .product-image {
+        height: 180px;
+    }
+
+    .product-image-placeholder {
+        height: 180px;
+    }
+
+    .product-image-placeholder i {
+        font-size: 2rem;
+    }
+
+    .product-title {
+        font-size: 0.95rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .product-article {
+        font-size: 0.75rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .product-price {
+        font-size: 1rem;
+    }
+
+    .stock-badge {
+        font-size: 0.7rem;
+    }
+
+    .product-actions .btn {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .product-actions {
+        gap: 0.25rem !important;
+    }
+
+    /* Уменьшенные отступы между карточками */
+    .mb-4 {
+        margin-bottom: 0.75rem !important;
+    }
+
+    /* Jumbotron для мобильных */
+    .jumbotron {
+        padding: 2rem 1rem !important;
+    }
+
+    .jumbotron .display-4 {
+        font-size: 1.75rem !important;
+    }
+
+    .jumbotron .lead {
+        font-size: 1rem !important;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+    /* Планшеты - 2 карточки в ряд */
+    .col-sm-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+
+    .product-image {
+        height: 220px;
+    }
+
+    .product-image-placeholder {
+        height: 220px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+    /* Маленькие десктопы - 2 карточки в ряд */
+    .col-md-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+
+    .product-image {
+        height: 230px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+    /* Средние десктопы - 3 карточки в ряд */
+    .col-lg-4 {
+        flex: 0 0 auto;
+        width: 33.333333%;
+    }
+}
+
+@media (min-width: 1200px) {
+    /* Большие десктопы - 3 карточки в ряд */
+    .col-xl-4 {
+        flex: 0 0 auto;
+        width: 33.333333%;
+    }
+}
+
+/* Улучшенные стили для карточек */
+.card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.5rem;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+/* Улучшенные стили для кнопок */
+.btn-primary {
+    padding: 0.375rem 0.75rem;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+}
+
+/* Адаптивные стили для других элементов */
+@media (max-width: 576px) {
+    .jumbotron {
+        padding: 1.5rem 1rem !important;
+    }
+
+    .jumbotron .display-4 {
+        font-size: 1.5rem !important;
+    }
+
+    .section-title {
+        font-size: 1.25rem !important;
+    }
+
+    .news-card .card-title {
+        font-size: 1rem !important;
+    }
+}
+
+/* Стили для фильтров на мобильных */
+@media (max-width: 768px) {
+    .mobile-filters-spacing {
+        margin-bottom: 1rem;
+    }
+
+    .filter-section h6 {
+        font-size: 1rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+}

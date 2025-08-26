@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}{{ news.title }} - Новости{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">Главная</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('main.news') }}">Новости</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ news.title }}</li>
+            </ol>
+        </nav>
+
+        <article>
+            <h1>{{ news.title }}</h1>
+            <p class="text-muted">
+                <i class="bi bi-calendar"></i> {{ news.created_at.strftime('%d.%m.%Y %H:%M') }}
+            </p>
+            <div class="mt-4">
+                {{ news.content|safe }}
+            </div>
+        </article>
+
+        <div class="mt-4">
+            <a href="{{ url_for('main.news') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Вернуться к новостям
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

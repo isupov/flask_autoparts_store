@@ -3,19 +3,6 @@ from flask_login import login_required, current_user
 from app import db
 from app.models import Product, CartItem
 
-# Создаем форму напрямую
-from flask_wtf import FlaskForm
-from wtforms import IntegerField, SubmitField
-from wtforms.validators import DataRequired, NumberRange
-
-
-class AddToCartForm(FlaskForm):
-    quantity = IntegerField('Количество',
-                            validators=[DataRequired(), NumberRange(min=1)],
-                            default=1)
-    submit = SubmitField('Добавить в корзину')  # Добавляем submit кнопку
-
-
 cart = Blueprint('cart', __name__)
 
 
@@ -27,12 +14,12 @@ def view_cart():
     return render_template('cart/view_cart.html', cart_items=cart_items, total=total)
 
 
-@cart.route('/cart/add/<int:product_id>', methods=['POST'])
+@cart.route('/cart/add/<int:product_id>', methods=['POST'])  # Убедимся, что метод POST разрешен
 @login_required
 def add_to_cart(product_id):
     product = Product.query.get_or_404(product_id)
 
-    # Получаем количество из формы или устанавливаем 1 по умолчанию
+    # Получаем количество из формы
     quantity = int(request.form.get('quantity', 1))
 
     # Проверяем наличие товара
@@ -67,6 +54,7 @@ def add_to_cart(product_id):
 
     # Возвращаем пользователя на ту же страницу
     return redirect(request.referrer or url_for('main.catalog'))
+
 
 @cart.route('/cart/update/<int:item_id>', methods=['POST'])
 @login_required

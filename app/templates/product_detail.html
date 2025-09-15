@@ -56,8 +56,8 @@
             <p>{{ product.short_desc or 'Описание отсутствует' }}</p>
         </div>
 
-       {% if product.stock > 0 %}
-    <form method="POST" class="mb-4">
+{% if product.stock > 0 %}
+    <form method="POST" action="{{ url_for('cart.add_to_cart', product_id=product.id) }}" class="mb-4">
         {{ form.hidden_tag() }}
         <div class="mb-3">
             <label class="form-label">Количество</label>
@@ -83,6 +83,10 @@
                     {% endfor %}
                 </div>
             {% endif %}
+        </div>
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+{% endif %}
         </div>
         {{ form.submit(class="btn btn-primary") }}
     </form>

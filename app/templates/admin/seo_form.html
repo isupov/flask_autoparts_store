@@ -1,0 +1,157 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title or 'Редактировать SEO настройку' }} - Админка{% endblock %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{{ title or 'Редактировать SEO настройку' }}</h1>
+    <a href="{{ url_for('admin.seo_settings') }}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Назад к SEO настройкам
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            {% if seo and seo.id %}
+                <input type="hidden" name="seo_id" value="{{ seo.id }}">
+            {% endif %}
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="page_type" class="form-label">Тип страницы *</label>
+                        <select class="form-select" id="page_type" name="page_type" required {% if seo and seo.id %}disabled{% endif %}>
+                            <option value="">Выберите тип страницы</option>
+                            <option value="main" {% if seo and seo.page_type == 'main' %}selected{% endif %}>Главная страница</option>
+                            <option value="catalog" {% if seo and seo.page_type == 'catalog' %}selected{% endif %}>Каталог</option>
+                            <option value="product" {% if seo and seo.page_type == 'product' %}selected{% endif %}>Товар</option>
+                            <option value="news" {% if seo and seo.page_type == 'news' %}selected{% endif %}>Новости</option>
+                            <option value="search" {% if seo and seo.page_type == 'search' %}selected{% endif %}>Поиск</option>
+                            <option value="category" {% if seo and seo.page_type == 'category' %}selected{% endif %}>Категория</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="page_id" class="form-label">ID страницы (опционально)</label>
+                        <input type="number" class="form-control" id="page_id" name="page_id"
+                               value="{{ seo.page_id if seo else '' }}"
+                               {% if seo and seo.id %}disabled{% endif %}>
+                        <div class="form-text">Оставьте пустым для настроек по умолчанию</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="title" class="form-label">Title страницы</label>
+                <input type="text" class="form-control" id="title" name="title"
+                       value="{{ seo.title if seo else '' }}">
+                <div class="form-text">Поддерживаются плейсхолдеры: {product_name}, {category_name}, {query} и т.д.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Meta Description</label>
+                <textarea class="form-control" id="description" name="description" rows="3">{{ seo.description if seo else '' }}</textarea>
+                <div class="form-text">Максимум 160 символов для оптимального отображения</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="keywords" class="form-label">Meta Keywords</label>
+                <input type="text" class="form-control" id="keywords" name="keywords"
+                       value="{{ seo.keywords if seo else '' }}">
+                <div class="form-text">Ключевые слова через запятую</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="robots" class="form-label">Robots Meta Tag</label>
+                <select class="form-select" id="robots" name="robots">
+                    <option value="index, follow" {% if not seo or seo.robots == 'index, follow' %}selected{% endif %}>index, follow</option>
+                    <option value="noindex, follow" {% if seo and seo.robots == 'noindex, follow' %}selected{% endif %}>noindex, follow</option>
+                    <option value="index, nofollow" {% if seo and seo.robots == 'index, nofollow' %}selected{% endif %}>index, nofollow</option>
+                    <option value="noindex, nofollow" {% if seo and seo.robots == 'noindex, nofollow' %}selected{% endif %}>noindex, nofollow</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="og_title" class="form-label">Open Graph Title</label>
+                        <input type="text" class="form-control" id="og_title" name="og_title"
+                               value="{{ seo.og_title if seo else '' }}">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="og_image" class="form-label">Open Graph Image</label>
+                        <input type="text" class="form-control" id="og_image" name="og_image"
+                               value="{{ seo.og_image if seo else '' }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="og_description" class="form-label">Open Graph Description</label>
+                <textarea class="form-control" id="og_description" name="og_description" rows="2">{{ seo.og_description if seo else '' }}</textarea>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{{ url_for('admin.seo_settings') }}" class="btn btn-secondary">Отмена</a>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if not (seo and seo.id) %}
+<div class="card mt-4">
+    <div class="card-header">
+        <h5>Доступные страницы</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            {% if products %}
+            <div class="col-md-4">
+                <h6>Товары</h6>
+                <ul class="list-group">
+                    {% for product in products %}
+                    <li class="list-group-item">
+                        <small>#{{ product.id }} - {{ product.name[:30] }}{% if product.name|length > 30 %}...{% endif %}</small>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            {% if categories %}
+            <div class="col-md-4">
+                <h6>Категории</h6>
+                <ul class="list-group">
+                    {% for category in categories %}
+                    <li class="list-group-item">
+                        <small>#{{ category.id }} - {{ category.name[:30] }}{% if category.name|length > 30 %}...{% endif %}</small>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            {% if news_items %}
+            <div class="col-md-4">
+                <h6>Новости</h6>
+                <ul class="list-group">
+                    {% for news_item in news_items %}
+                    <li class="list-group-item">
+                        <small>#{{ news_item.id }} - {{ news_item.title[:30] }}{% if news_item.title|length > 30 %}...{% endif %}</small>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

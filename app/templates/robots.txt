@@ -1,0 +1,20 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /cart/
+Disallow: /profile/
+Disallow: /search?
+
+Sitemap: {{ request.host_url }}sitemap.xml
+
+# Разрешаем индексацию важных страниц
+Allow: /
+Allow: /catalog
+Allow: /product/
+Allow: /news/
+
+# Задержка между запросами (в секундах)
+Crawl-delay: 10
+
+# Хост (для Яндекса)
+Host: {{ request.host_url | replace('http://', '') | replace('https://', '') | replace('/', '') }}

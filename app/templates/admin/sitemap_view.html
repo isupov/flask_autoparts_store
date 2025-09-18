@@ -1,0 +1,82 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Просмотр Sitemap - Админка{% endblock %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Просмотр Sitemap</h1>
+    <div>
+        <a href="{{ url_for('admin.generate_sitemap') }}" class="btn btn-primary">
+            <i class="bi bi-arrow-repeat"></i> Перегенерировать
+        </a>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Назад
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Sitemap.xml</h5>
+    </div>
+    <div class="card-body">
+        {% if sitemap_content %}
+            <pre class="bg-light p-3" style="white-space: pre-wrap; font-family: monospace; font-size: 0.8rem;">{{ sitemap_content }}</pre>
+
+            <div class="mt-3">
+                <a href="{{ url_for('static', filename='sitemap.xml') }}" target="_blank" class="btn btn-success">
+                    <i class="bi bi-box-arrow-up-right"></i> Открыть в новой вкладке
+                </a>
+                <a href="{{ url_for('admin.generate_sitemap') }}" class="btn btn-primary">
+                    <i class="bi bi-arrow-repeat"></i> Перегенерировать
+                </a>
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <i class="bi bi-file-earmark-code" style="font-size: 3rem; color: #ccc;"></i>
+                <h3 class="mt-3">Sitemap не найден</h3>
+                <p class="text-muted">Сгенерируйте sitemap для улучшения SEO</p>
+                <a href="{{ url_for('admin.generate_sitemap') }}" class="btn btn-primary">
+                    <i class="bi bi-gear"></i> Сгенерировать Sitemap
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h5>Информация о Sitemap</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h6>Что такое Sitemap?</h6>
+                <p>Sitemap - это файл в формате XML, который перечисляет URL-адреса вашего сайта для поисковых систем.</p>
+
+                <h6>Преимущества:</h6>
+                <ul>
+                    <li>Улучшает индексацию сайта</li>
+                    <li>Помогает поисковым роботам находить все страницы</li>
+                    <li>Указывает приоритетность страниц</li>
+                    <li>Показывает частоту обновления контента</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h6>Рекомендации:</h6>
+                <ul>
+                    <li>Обновляйте sitemap при добавлении нового контента</li>
+                    <li>Проверяйте sitemap в инструментах поисковых систем</li>
+                    <li>Убедитесь, что sitemap доступен по адресу /sitemap.xml</li>
+                    <li>Добавьте ссылку на sitemap в robots.txt</li>
+                </ul>
+
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i>
+                    <strong>Совет:</strong> После генерации sitemap отправьте его в Google Search Console и Яндекс.Вебмастер.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

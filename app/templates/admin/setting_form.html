@@ -1,0 +1,41 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Редактировать настройку - Админка{% endblock %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Редактировать настройку</h1>
+    <a href="{{ url_for('admin.settings') }}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Назад к настройкам
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            <div class="mb-3">
+                <label for="key" class="form-label">Ключ настройки</label>
+                <input type="text" class="form-control" id="key" name="key"
+                       value="{{ setting.key }}" readonly>
+                <div class="form-text">Ключ настройки нельзя изменить</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="value" class="form-label">Значение *</label>
+                <textarea class="form-control" id="value" name="value" rows="4" required>{{ setting.value }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Описание</label>
+                <input type="text" class="form-control" id="description" name="description"
+                       value="{{ setting.description or '' }}">
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{{ url_for('admin.settings') }}" class="btn btn-secondary">Отмена</a>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -58,37 +58,28 @@
 
 {% if product.stock > 0 %}
     <form method="POST" action="{{ url_for('cart.add_to_cart', product_id=product.id) }}" class="mb-4">
-        {{ form.hidden_tag() }}
         <div class="mb-3">
             <label class="form-label">Количество</label>
             <div class="input-group" style="width: fit-content;">
                 <button class="btn btn-outline-secondary" type="button" id="decrease-qty">
                     <i class="bi bi-dash"></i>
                 </button>
-                {{ form.quantity(class="form-control text-center",
-                              min=1,
-                              max=product.stock,
-                              style="width: 80px;",
-                              id="quantity-input") }}
+                <input type="number"
+                       name="quantity"
+                       class="form-control text-center"
+                       min="1"
+                       max="{{ product.stock }}"
+                       value="1"
+                       style="width: 80px;"
+                       id="quantity-input">
                 <button class="btn btn-outline-secondary" type="button" id="increase-qty">
                     <i class="bi bi-plus"></i>
                 </button>
                 <span class="input-group-text">шт.</span>
             </div>
             <div class="form-text">Доступно: {{ product.stock }} шт.</div>
-            {% if form.quantity.errors %}
-                <div class="text-danger small mt-1">
-                    {% for error in form.quantity.errors %}
-                        {{ error }}
-                    {% endfor %}
-                </div>
-            {% endif %}
         </div>
-        {{ form.submit(class="btn btn-primary") }}
-    </form>
-{% endif %}
-        </div>
-        {{ form.submit(class="btn btn-primary") }}
+        <button type="submit" class="btn btn-primary">Добавить в корзину</button>
     </form>
 
     <!-- JavaScript для управления количеством -->

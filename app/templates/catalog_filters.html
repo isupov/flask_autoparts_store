@@ -3,14 +3,13 @@
     <h6 class="border-bottom pb-2 mb-3">Категории</h6>
     <div class="list-group list-group-flush">
         <a href="{{ url_for('main.catalog') }}"
-           class="list-group-item list-group-item-action {% if not current_category %}active{% endif %}"
-           style="{% if not current_category %}background-color: #dc3545 !important; color: white !important;{% endif %}">
+           class="list-group-item list-group-item-action {% if not current_category %}active bg-white text-primary border-primary{% endif %}">
             <span>Все категории</span>
         </a>
 
         {% for parent_category in parent_categories %}
         <div class="list-group-item">
-            <a href="{{ url_for('main.catalog', category=parent_category.id) }}"
+            <a href="{{ url_for('main.catalog_by_slug', category_slug=parent_category.slug) }}"
                class="text-decoration-none d-block {% if current_category == parent_category.id %}fw-bold text-primary{% endif %}">
                 <span>{{ parent_category.name }}</span>
             </a>
@@ -18,7 +17,7 @@
             {% if parent_category.children %}
                 <div class="ms-3 mt-2">
                     {% for child in parent_category.children %}
-                        <a href="{{ url_for('main.catalog', category=child.id) }}"
+                        <a href="{{ url_for('main.catalog_by_slug', category_slug=parent_category.slug + '/' + child.slug) }}"
                            class="text-decoration-none d-block small {% if current_category == child.id %}fw-bold text-primary{% endif %}">
                             <span>{{ child.name }}</span>
                         </a>

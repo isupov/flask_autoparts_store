@@ -14,18 +14,28 @@ def view_cart():
     return render_template('cart/view_cart.html', cart_items=cart_items, total=total)
 
 
-@cart.route('/cart/add/<int:product_id>', methods=['POST'])  # Убедимся, что метод POST разрешен
+@cart.route('/cart/add/<int:product_id>', methods=['POST'])
 @login_required
 def add_to_cart(product_id):
+    print(f"DEBUG: add_to_cart called with product_id={product_id}")
+    print(f"DEBUG: request.method={request.method}")
+    print(f"DEBUG: request.form={request.form}")
+
     product = Product.query.get_or_404(product_id)
 
-    # Получаем количество из формы
-    quantity = int(request.form.get('quantity', 1))
+    # Получаем количество из формы или устанавливаем 1 по умолчанию
+    try:
+        quantity = int(request.form.get('quantity', 1))
+        print(f"DEBUG: quantity={quantity}")
+    except (ValueError, TypeError):
+        quantity = 1
+        print(f"DEBUG: quantity set to default 1")
 
     # Проверяем наличие товара
     if quantity > product.stock:
         flash(f'Недостаточно товара на складе. Доступно: {product.stock} шт.', 'error')
-        return redirect(request.referrer or url_for('main.catalog'))
+        # Возвращаем на страницу товара
+        return redirect(url_for('main.product_detail', product_slug=product.slug))
 
     # Проверяем, есть ли уже такой товар в корзине
     cart_item = CartItem.query.filter_by(
@@ -38,8 +48,9 @@ def add_to_cart(product_id):
         new_quantity = cart_item.quantity + quantity
         if new_quantity > product.stock:
             flash(f'Недостаточно товара на складе. Максимальное количество: {product.stock} шт.', 'error')
-            return redirect(request.referrer or url_for('main.catalog'))
+            return redirect(url_for('main.product_detail', product_slug=product.slug))
         cart_item.quantity = new_quantity
+        print(f"DEBUG: Updated existing cart item, new quantity={new_quantity}")
     else:
         # Создаем новую запись в корзине
         cart_item = CartItem(
@@ -48,6 +59,7 @@ def add_to_cart(product_id):
             quantity=quantity
         )
         db.session.add(cart_item)
+        print(f"DEBUG: Created new cart item with quantity={quantity}")
 
     db.session.commit()
     flash(f'Товар "{product.name}" добавлен в корзину!', 'success')

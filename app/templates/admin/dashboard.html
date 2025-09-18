@@ -10,6 +10,7 @@
     </a>
 </div>
 
+<!-- Статистика -->
 <div class="row">
     <div class="col-md-3 mb-4">
         <div class="card text-white bg-primary">
@@ -43,28 +44,76 @@
             </div>
         </div>
     </div>
+    <!-- Добавим в секцию статистики -->
+<div class="col-md-3 mb-4">
+    <div class="card text-white bg-info">
+        <div class="card-body">
+            <h5 class="card-title">SEO</h5>
+            <p class="card-text">Управление sitemap и мета-тегами</p>
+            <a href="{{ url_for('admin.view_sitemap') }}" class="btn btn-light btn-sm">Sitemap</a>
+        </div>
+    </div>
+</div>
 </div>
 
-<div class="card">
-    <div class="card-header">
-        <h5>Быстрые действия</h5>
+<!-- Быстрые действия -->
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Каталог</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('admin.products') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-box"></i> Товары
+                    </a>
+                    <a href="{{ url_for('admin.categories') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-tags"></i> Категории
+                    </a>
+                    <a href="{{ url_for('admin.brands') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-building"></i> Бренды
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <a href="{{ url_for('admin.create_product') }}" class="btn btn-primary w-100">
-                    <i class="bi bi-plus-circle"></i> Добавить товар
-                </a>
+
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Контент</h5>
             </div>
-            <div class="col-md-4 mb-3">
-                <a href="{{ url_for('admin.create_news') }}" class="btn btn-success w-100">
-                    <i class="bi bi-plus-circle"></i> Добавить новость
-                </a>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('admin.news') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-newspaper"></i> Новости
+                    </a>
+                    <a href="{{ url_for('admin.countries') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-globe"></i> Страны
+                    </a>
+                </div>
             </div>
-            <div class="col-md-4 mb-3">
-                <a href="{{ url_for('admin.users') }}" class="btn btn-info w-100">
-                    <i class="bi bi-people"></i> Управление пользователями
-                </a>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Настройки</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('admin.users') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-people"></i> Пользователи
+                    </a>
+                    <a href="{{ url_for('admin.settings') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-gear"></i> Настройки сайта
+                    </a>
+                    <a href="{{ url_for('admin.seo_settings') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-search"></i> SEO настройки
+                    </a>
+                </div>
             </div>
         </div>
     </div>

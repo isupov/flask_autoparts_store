@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}{{ news.title }} - Новости{% endblock %}
+{% block title %}{{ news.title }} - {{ get_site_setting('site_name', 'Автозапчасти Shop') }}{% endblock %}
 
 {% block content %}
 <div class="row">
-    <div class="col-12">
+    <div class="col-lg-8">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">Главная</a></li>
@@ -14,10 +14,19 @@
         </nav>
 
         <article>
-            <h1>{{ news.title }}</h1>
-            <p class="text-muted">
-                <i class="bi bi-calendar"></i> {{ news.created_at.strftime('%d.%m.%Y %H:%M') }}
-            </p>
+            <header>
+                <h1>{{ news.title }}</h1>
+                <p class="text-muted">
+                    <small>
+                        <i class="bi bi-calendar"></i> {{ news.created_at.strftime('%d.%m.%Y %H:%M') }}
+                    </small>
+                </p>
+            </header>
+
+            {% if news.image_url %}
+                <img src="{{ news.image_url }}" class="img-fluid rounded mb-4" alt="{{ news.title }}" style="width: 100%; height: 400px; object-fit: cover;">
+            {% endif %}
+
             <div class="mt-4">
                 {{ news.content|safe }}
             </div>
@@ -27,6 +36,69 @@
             <a href="{{ url_for('main.news') }}" class="btn btn-secondary">
                 <i class="bi bi-arrow-left"></i> Вернуться к новостям
             </a>
+        </div>
+    </div>
+
+    <!-- Сайдбар -->
+    <div class="col-lg-4">
+        <!-- Последние новости -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Последние новости</h5>
+            </div>
+            <div class="card-body">
+                {% for sidebar_news in latest_news_sidebar %}
+                <div class="mb-3 pb-3 border-bottom">
+                    <h6 class="mb-1">
+                        <a href="{{ url_for('main.news_item', news_slug=sidebar_news.slug) }}" class="text-decoration-none">
+                            {{ sidebar_news.title }}
+                        </a>
+                    </h6>
+                    <p class="text-muted small mb-1">
+                        <i class="bi bi-calendar"></i> {{ sidebar_news.created_at.strftime('%d.%m.%Y') }}
+                    </p>
+                    {% if sidebar_news.image_url %}
+                        <img src="{{ sidebar_news.image_url }}" alt="{{ sidebar_news.title }}" class="img-fluid rounded mb-2" style="height: 80px; object-fit: cover;">
+                    {% elif sidebar_news.get_thumbnail_url() %}
+                        <img src="{{ sidebar_news.get_thumbnail_url() }}" alt="{{ sidebar_news.title }}" class="img-fluid rounded mb-2" style="height: 80px; object-fit: cover;">
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <a href="{{ url_for('main.news') }}" class="btn btn-outline-primary btn-sm w-100">
+                    Все новости
+                </a>
+            </div>
+        </div>
+
+        <!-- Последние товары -->
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Новые товары</h5>
+            </div>
+            <div class="card-body">
+                {% for product in latest_products_sidebar %}
+                <div class="mb-3 pb-3 border-bottom">
+                    <div class="d-flex">
+                        {% if product.image_url %}
+                            <img src="{{ product.image_url }}" alt="{{ product.name }}" class="img-fluid rounded me-2" style="width: 60px; height: 60px; object-fit: cover;">
+                        {% elif product.get_thumbnail_url() %}
+                            <img src="{{ product.get_thumbnail_url() }}" alt="{{ product.name }}" class="img-fluid rounded me-2" style="width: 60px; height: 60px; object-fit: cover;">
+                        {% endif %}
+                        <div>
+                            <h6 class="mb-0">
+                                <a href="{{ url_for('main.product_detail', product_slug=product.slug) }}" class="text-decoration-none">
+                                    {{ product.name }}
+                                </a>
+                            </h6>
+                            <p class="text-primary fw-bold mb-0">{{ "%.2f"|format(product.price) }} ₽</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <a href="{{ url_for('main.catalog') }}" class="btn btn-outline-primary btn-sm w-100">
+                    Весь каталог
+                </a>
+            </div>
         </div>
     </div>
 </div>

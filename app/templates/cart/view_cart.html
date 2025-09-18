@@ -35,102 +35,52 @@
                         {% for item in cart_items %}
                         <tr>
                             <td>
-    <div class="d-flex align-items-center">
-        {% set thumbnail_url = item.product.get_thumbnail_url() %}
-        {% if thumbnail_url %}
-            <img src="{{ thumbnail_url }}"
-                 alt="{{ item.product.name }}"
-                 class="cart-item-image me-3"
-                 style="width: 70px; height: 70px; object-fit: cover;">
-        {% elif item.product.image_url %}
-            <img src="{{ item.product.image_url }}"
-                 alt="{{ item.product.name }}"
-                 class="cart-item-image me-3"
-                 style="width: 70px; height: 70px; object-fit: cover;">
-        {% else %}
-            <div class="bg-light d-flex align-items-center justify-content-center me-3 cart-item-image"
-                 style="width: 70px; height: 70px;">
-                <i class="bi bi-image" style="color: #ccc;"></i>
-            </div>
-        {% endif %}
-        <div>
-            <a href="{{ url_for('main.product_detail', product_id=item.product.id) }}"
-               class="text-decoration-none">
-                {{ item.product.name }}
-            </a>
-            <div class="small text-muted">Арт: {{ item.product.article }}</div>
-        </div>
-    </div>
-</td>
+                                <div class="d-flex align-items-center">
+                                    {% set thumbnail_url = item.product.get_thumbnail_url() %}
+                                    {% if thumbnail_url %}
+                                        <img src="{{ thumbnail_url }}"
+                                             alt="{{ item.product.name }}"
+                                             style="width: 80px; height: 80px; object-fit: cover;"
+                                             class="me-3">
+                                    {% elif item.product.image_url %}
+                                        <img src="{{ item.product.image_url }}"
+                                             alt="{{ item.product.name }}"
+                                             style="width: 80px; height: 80px; object-fit: cover;"
+                                             class="me-3">
+                                    {% else %}
+                                        <div class="bg-light d-flex align-items-center justify-content-center me-3"
+                                             style="width: 80px; height: 80px;">
+                                            <i class="bi bi-image" style="color: #ccc;"></i>
+                                        </div>
+                                    {% endif %}
+                                    <div>
+                                        <a href="{{ url_for('main.product_detail', product_slug=item.product.slug) }}"
+                                           class="text-decoration-none">
+                                            {{ item.product.name }}
+                                        </a>
+                                        <div class="small text-muted">Артикул: {{ item.product.article }}</div>
+                                    </div>
+                                </div>
+                            </td>
                             <td>{{ "%.2f"|format(item.product.price) }} ₽</td>
                             <td>
-    <form method="POST" action="{{ url_for('cart.update_cart_item', item_id=item.id) }}"
-          class="d-flex align-items-center">
-        <div class="input-group input-group-sm" style="width: fit-content;">
-            <button class="btn btn-outline-secondary btn-sm" type="button"
-                    onclick="updateQuantity(this, -1)">
-                <i class="bi bi-dash"></i>
-            </button>
-            <input type="number"
-                   name="quantity"
-                   value="{{ item.quantity }}"
-                   min="1"
-                   max="{{ item.product.stock }}"
-                   class="form-control form-control-sm text-center"
-                   style="width: 70px;">
-            <button class="btn btn-outline-secondary btn-sm" type="button"
-                    onclick="updateQuantity(this, 1)">
-                <i class="bi bi-plus"></i>
-            </button>
-        </div>
-        <button type="submit" class="btn btn-sm btn-outline-primary ms-2">Обновить</button>
-    </form>
-    {% if item.quantity > item.product.stock %}
-        <div class="text-danger small mt-1">
-            <i class="bi bi-exclamation-triangle"></i> Недостаточно на складе
-        </div>
-    {% endif %}
-</td>
-
-                        <!-- Добавьте перед закрывающим тегом </body> -->
-<script>
-    function updateQuantity(button, change) {
-        const inputGroup = button.closest('.input-group');
-        const input = inputGroup.querySelector('input[type="number"]');
-        let currentValue = parseInt(input.value) || 1;
-        let maxValue = parseInt(input.max) || 999;
-        let minValue = parseInt(input.min) || 1;
-
-        let newValue = currentValue + change;
-        if (newValue >= minValue && newValue <= maxValue) {
-            input.value = newValue;
-        }
-    }
-
-    // Предотвращение ввода нечисловых значений
-    document.addEventListener('DOMContentLoaded', function() {
-        const numberInputs = document.querySelectorAll('input[type="number"]');
-        numberInputs.forEach(function(input) {
-            input.addEventListener('keypress', function(e) {
-                if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') {
-                    e.preventDefault();
-                }
-            });
-
-            input.addEventListener('change', function() {
-                let value = parseInt(this.value) || 1;
-                let max = parseInt(this.max) || 999;
-                let min = parseInt(this.min) || 1;
-
-                if (value < min) {
-                    this.value = min;
-                } else if (value > max) {
-                    this.value = max;
-                }
-            });
-        });
-    });
-</script>
+                                <form method="POST" action="{{ url_for('cart.update_cart_item', item_id=item.id) }}"
+                                      class="d-flex align-items-center">
+                                    <input type="number"
+                                           name="quantity"
+                                           value="{{ item.quantity }}"
+                                           min="1"
+                                           max="{{ item.product.stock }}"
+                                           class="form-control form-control-sm"
+                                           style="width: 80px;">
+                                    <button type="submit" class="btn btn-sm btn-outline-primary ms-2">Обновить</button>
+                                </form>
+                                {% if item.quantity > item.product.stock %}
+                                    <div class="text-danger small mt-1">
+                                        <i class="bi bi-exclamation-triangle"></i> Недостаточно на складе
+                                    </div>
+                                {% endif %}
+                            </td>
                             <td>
                                 <strong>{{ "%.2f"|format(item.product.price * item.quantity) }} ₽</strong>
                             </td>
@@ -148,26 +98,26 @@
             </div>
 
             <div class="row mt-4">
-    <div class="col-md-6">
-        <a href="{{ url_for('main.catalog') }}" class="btn btn-secondary">
-            <i class="bi bi-arrow-left"></i> Продолжить покупки
-        </a>
-    </div>
-    <div class="col-md-6 text-md-end">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Итого к оплате</h5>
-                <h3 class="text-primary">{{ "%.2f"|format(total) }} ₽</h3>
-                <button class="btn btn-success btn-lg mt-3" disabled>
-                    <i class="bi bi-credit-card"></i> Оформить заказ
-                </button>
-                <div class="small text-muted mt-2">
-                    Оформление заказа будет доступно в следующих обновлениях
+                <div class="col-md-6">
+                    <a href="{{ url_for('main.catalog') }}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Продолжить покупки
+                    </a>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Итого к оплате</h5>
+                            <h3 class="text-primary">{{ "%.2f"|format(total) }} ₽</h3>
+                            <button class="btn btn-success btn-lg mt-3" disabled>
+                                <i class="bi bi-credit-card"></i> Оформить заказ
+                            </button>
+                            <div class="small text-muted mt-2">
+                                Оформление заказа будет доступно в следующих обновлениях
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
         {% else %}
             <div class="text-center py-5">
                 <i class="bi bi-cart-x" style="font-size: 3rem; color: #ccc;"></i>

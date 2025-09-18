@@ -9,29 +9,33 @@
             <div class="card-header bg-primary text-white">
                 <h5>Навигация</h5>
             </div>
-            <div class="list-group list-group-flush">
-                <a href="{{ url_for('admin.dashboard') }}" class="list-group-item list-group-item-action">
-                    <i class="bi bi-speedometer2"></i> Панель управления
-                </a>
-                <a href="{{ url_for('admin.users') }}" class="list-group-item list-group-item-action">
-                    <i class="bi bi-people"></i> Пользователи
-                </a>
-                <a href="{{ url_for('admin.products') }}" class="list-group-item list-group-item-action">
-                    <i class="bi bi-box"></i> Товары
-                </a>
-                <a href="{{ url_for('admin.categories') }}" class="list-group-item list-group-item-action">
-                    <i class="bi bi-tags"></i> Категории
-                </a>
-                <a href="{{ url_for('admin.brands') }}" class="list-group-item list-group-item-action">
-                    <i class="bi bi-building"></i> Бренды
-                </a>
-                <a href="{{ url_for('admin.countries') }}" class="list-group-item list-group-item-action">
-                    <i class="bi bi-globe"></i> Страны
-                </a>
-                <a href="{{ url_for('admin.news') }}" class="list-group-item list-group-item-action">
-                    <i class="bi bi-newspaper"></i> Новости
-                </a>
-            </div>
+            <!-- Найдите навигацию в админке и обновите: -->
+<ul class="list-group list-group-flush">
+    <a href="{{ url_for('admin.dashboard') }}" class="list-group-item list-group-item-action">
+        <i class="bi bi-speedometer2"></i> Панель управления
+    </a>
+    <a href="{{ url_for('admin.users') }}" class="list-group-item list-group-item-action">
+        <i class="bi bi-people"></i> Пользователи
+    </a>
+    <a href="{{ url_for('admin.products') }}" class="list-group-item list-group-item-action">
+        <i class="bi bi-box"></i> Товары
+    </a>
+    <a href="{{ url_for('admin.categories') }}" class="list-group-item list-group-item-action">
+        <i class="bi bi-tags"></i> Категории
+    </a>
+    <a href="{{ url_for('admin.brands') }}" class="list-group-item list-group-item-action">
+        <i class="bi bi-building"></i> Бренды
+    </a>
+    <a href="{{ url_for('admin.countries') }}" class="list-group-item list-group-item-action">
+        <i class="bi bi-globe"></i> Страны
+    </a>
+    <a href="{{ url_for('admin.news') }}" class="list-group-item list-group-item-action">
+        <i class="bi bi-newspaper"></i> Новости
+    </a>
+    <a href="{{ url_for('admin.settings') }}" class="list-group-item list-group-item-action">
+        <i class="bi bi-gear"></i> Настройки
+    </a>
+</ul>
         </div>
     </div>
 

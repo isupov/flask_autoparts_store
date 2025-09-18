@@ -430,17 +430,65 @@ a:not(.btn):not(.nav-link):not(.navbar-brand):not(.dropdown-item):hover {
     }
 }
 
-/* Улучшенные стили для списка категорий */
-.list-group-item-action:hover {
-    background-color: rgba(220, 53, 69, 0.1);
+/* Исправление стиля для активного элемента "Все категории" */
+.list-group-item-action.active {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: white !important;
 }
 
-/* Явные стили для активного элемента "Все категории" */
+.list-group-item-action.active:hover {
+    background-color: var(--primary-dark) !important;
+    color: white !important;
+}
+
+/* Улучшенный стиль для активного элемента "Все категории" */
 .list-group-item[href="{{ url_for('main.catalog') }}"].active,
 .list-group-item[href="/catalog"].active {
-    background-color: #dc3545 !important;
-    border-color: #dc3545 !important;
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
     color: white !important;
+}
+
+/* Альтернативный стиль - более мягкий для активного элемента */
+.list-group-item-action.active {
+    background-color: rgba(220, 53, 69, 0.1) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
+}
+
+.list-group-item-action.active:hover {
+    background-color: rgba(220, 53, 69, 0.2) !important;
+    color: var(--primary-color) !important;
+}
+
+/* Явный стиль для активного элемента "Все категории" */
+.list-group-item-action[href="{{ url_for('main.catalog') }}"].active,
+.list-group-item-action[href="/catalog"].active {
+    background-color: rgba(220, 53, 69, 0.1) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
+}
+
+/* Улучшенные стили для фильтров */
+.card-header {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    font-weight: 500;
+}
+
+/* Стили для мобильных фильтров */
+@media (max-width: 768px) {
+    .list-group-item-action.active {
+        background-color: rgba(220, 53, 69, 0.1) !important;
+        border-color: var(--primary-color) !important;
+        color: var(--primary-color) !important;
+    }
+
+    .list-group-item-action.active:hover {
+        background-color: rgba(220, 53, 69, 0.2) !important;
+        color: var(--primary-color) !important;
+    }
 }
 
 /* Стили для чекбоксов фильтров */

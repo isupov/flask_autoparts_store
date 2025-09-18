@@ -1,8 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-
-# Импортируем db из __init__.py
 from app import db
 
 # Промежуточная таблица для связи many-to-many Product-Category
@@ -38,6 +35,7 @@ class User(UserMixin, db.Model):
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
+    slug = db.Column(db.String(100), unique=True, nullable=False)  # Для URL
     parent_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=True)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
 
@@ -59,6 +57,12 @@ class Category(db.Model):
             return f"{self.parent.name} → {self.name}"
         return self.name
 
+    def get_full_slug(self):
+        """Возвращает полный slug с учетом родителей"""
+        if self.parent:
+            return f"{self.parent.slug}/{self.slug}"
+        return self.slug
+
     def get_total_products_count(self):
         """Возвращает общее количество товаров в категории и подкатегориях"""
         count = len(self.products)
@@ -70,10 +74,14 @@ class Category(db.Model):
 class Brand(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
+    slug = db.Column(db.String(100), unique=True, nullable=False)  # Для URL
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
 
     # Связь с товарами
     products = db.relationship('Product', backref='brand', lazy=True)
+
+    def __repr__(self):
+        return f'<Brand {self.name}>'
 
 
 class Country(db.Model):
@@ -84,14 +92,18 @@ class Country(db.Model):
     # Связь с товарами
     products = db.relationship('Product', backref='country', lazy=True)
 
+    def __repr__(self):
+        return f'<Country {self.name}>'
+
 
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
+    slug = db.Column(db.String(200), unique=True, nullable=False)  # Для URL
     article = db.Column(db.String(50), unique=True, nullable=False)
     short_desc = db.Column(db.Text)
     full_desc = db.Column(db.Text)
-    image_url = db.Column(db.String(200))  # Только основное изображение
+    image_url = db.Column(db.String(200))  # Основное изображение
     price = db.Column(db.Float, nullable=False)
     stock = db.Column(db.Integer, nullable=False, default=0)  # Количество на складе
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
@@ -102,6 +114,49 @@ class Product(db.Model):
     # Связи
     categories = db.relationship('Category', secondary=product_category, back_populates='products')
     cart_items = db.relationship('CartItem', backref='product', lazy=True)
+
+    def get_thumbnail_url(self):
+        """Генерирует URL миниатюры из URL основного изображения"""
+        if self.image_url:
+            # Заменяем расширение файла на _thumb.расширение
+            path_parts = self.image_url.split('/')
+            if len(path_parts) > 0:
+                filename = path_parts[-1]  # Получаем имя файла
+                name_parts = filename.split('.')
+                if len(name_parts) > 1:
+                    # Добавляем _thumb перед расширением
+                    name_parts[-2] = name_parts[-2] + '_thumb'
+                    thumbnail_filename = '.'.join(name_parts)
+                    # Заменяем имя файла на имя миниатюры
+                    path_parts[-1] = thumbnail_filename
+                    return '/'.join(path_parts)
+        return self.image_url  # Возвращаем оригинальное изображение если миниатюра не найдена
+
+    def __repr__(self):
+        return f'<Product {self.name}>'
+
+
+class CartItem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False, default=1)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+    def __repr__(self):
+        return f'<CartItem {self.user_id}:{self.product_id}>'
+
+
+class News(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    slug = db.Column(db.String(200), unique=True, nullable=False)  # Для URL
+    content = db.Column(db.Text, nullable=False)
+    image_url = db.Column(db.String(200))  # Изображение новости
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+    def __repr__(self):
+        return f'<News {self.title}>'
 
     def get_thumbnail_url(self):
         """Генерирует URL миниатюры из URL основного изображения"""
@@ -121,16 +176,64 @@ class Product(db.Model):
         return self.image_url  # Возвращаем оригинальное изображение если миниатюра не найдена
 
 
-class CartItem(db.Model):
+class Setting(db.Model):
+    """Модель для хранения настроек сайта"""
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
-    quantity = db.Column(db.Integer, nullable=False, default=1)
+    key = db.Column(db.String(100), unique=True, nullable=False)  # Ключ настройки
+    value = db.Column(db.Text)  # Значение настройки
+    description = db.Column(db.String(200))  # Описание настройки
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+
+    def __repr__(self):
+        return f'<Setting {self.key}>'
+
+    @staticmethod
+    def get(key, default=None):
+        """Получение значения настройки по ключу"""
+        setting = Setting.query.filter_by(key=key).first()
+        return setting.value if setting else default
+
+    @staticmethod
+    def set(key, value, description=None):
+        """Установка значения настройки"""
+        setting = Setting.query.filter_by(key=key).first()
+        if setting:
+            setting.value = str(value)
+            if description:
+                setting.description = description
+        else:
+            setting = Setting(key=key, value=str(value), description=description)
+            db.session.add(setting)
+        db.session.commit()
+        return setting
 
 
-class News(db.Model):
+class SeoMeta(db.Model):
+    """Модель для хранения SEO мета-тегов"""
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200), nullable=False)
-    content = db.Column(db.Text, nullable=False)
+    page_type = db.Column(db.String(50), nullable=False)  # Тип страницы (main, catalog, product, etc.)
+    page_id = db.Column(db.Integer)  # ID конкретной страницы (для product, category и т.д.)
+    title = db.Column(db.String(200))  # Title страницы
+    description = db.Column(db.Text)  # Meta description
+    keywords = db.Column(db.Text)  # Meta keywords
+    robots = db.Column(db.String(100), default='index, follow')  # Robots meta tag
+    og_title = db.Column(db.String(200))  # Open Graph title
+    og_description = db.Column(db.Text)  # Open Graph description
+    og_image = db.Column(db.String(200))  # Open Graph image
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+
+    def __repr__(self):
+        return f'<SeoMeta {self.page_type}:{self.page_id}>'
+
+    @staticmethod
+    def get_for_page(page_type, page_id=None):
+        """Получение SEO настроек для конкретной страницы"""
+        if page_id:
+            # Сначала ищем специфичные настройки для страницы
+            seo = SeoMeta.query.filter_by(page_type=page_type, page_id=page_id).first()
+            if seo:
+                return seo
+        # Если нет специфичных, ищем общие настройки для типа страницы
+        return SeoMeta.query.filter_by(page_type=page_type, page_id=None).first()

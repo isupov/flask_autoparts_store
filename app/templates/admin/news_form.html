@@ -12,16 +12,40 @@
 
 <div class="card">
     <div class="card-body">
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="title" class="form-label">Заголовок</label>
-                <input type="text" class="form-control" id="title" name="title"
-                       value="{{ news.title if news else '' }}" required>
+                <label for="title" class="form-label">Заголовок *</label>
+                <input type="text"
+                       class="form-control"
+                       id="title"
+                       name="title"
+                       value="{{ news.title if news else '' }}"
+                       required>
             </div>
 
             <div class="mb-3">
-                <label for="content" class="form-label">Содержание</label>
-                <textarea class="form-control" id="content" name="content" rows="10" required>{{ news.content if news else '' }}</textarea>
+                <label for="image" class="form-label">Изображение новости</label>
+                <input type="file"
+                       class="form-control"
+                       id="image"
+                       name="image"
+                       accept="image/*">
+                {% if news and news.image_url %}
+                    <div class="mt-2">
+                        <img src="{{ news.image_url }}" alt="Текущее изображение" style="max-width: 200px; max-height: 200px;">
+                        <div class="form-text">Текущее изображение</div>
+                    </div>
+                {% endif %}
+                <div class="form-text">Поддерживаемые форматы: JPG, PNG, GIF. Максимальный размер: 16MB</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="content" class="form-label">Содержание *</label>
+                <textarea class="form-control"
+                          id="content"
+                          name="content"
+                          rows="10"
+                          required>{{ news.content if news else '' }}</textarea>
             </div>
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
